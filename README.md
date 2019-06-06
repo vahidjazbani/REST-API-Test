@@ -1,2 +1,2 @@
-# REST-API-Test
-Sample automation code written in Java with RestAssured
+# API-Test-VahidJazbani
+This is a framework to test API

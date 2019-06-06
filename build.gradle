@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'API_Test_VahidJazbani'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/test/java')
+        }
+        resources.srcDir file('src/test/resources')
+    }
+}
+
+
+dependencies {
+    compile 'log4j:log4j:1.2.17'
+    testCompile 'junit:junit:4.11'
+    integrationTestCompile 'org.assertj:assertj-core:3.0.0'
+    testCompile 'io.rest-assured:rest-assured:4.0.0'
+    testCompile 'io.rest-assured:json-schema-validator:4.0.0'
+    testCompile 'org.glassfish.jersey.core:jersey-client:2.25.1'
+    testCompile 'org.glassfish.jersey.media:jersey-media-json-jackson:2.25.1'
+}
+
+task integrationTest(type: Test) {
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+}
+
+configurations {
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
+}
+
+
+check.dependsOn integrationTest
+integrationTest.mustRunAfter test
